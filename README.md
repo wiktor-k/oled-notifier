@@ -25,6 +25,14 @@ cargo build --bin main --release --target aarch64-unknown-linux-musl
 If there are no `/dev/i2c-0` device use the kernel module: `modprobe
 i2c-dev`.
 
+## Installing
+
+Currently the notifier is available on Arch AUR:
+https://aur.archlinux.org/packages/oled-notifier-git
+
+Note that the package can be built on amd64 systems but must be run on
+AArch64 system.
+
 ## End-to-end tests
 
 The end-to-end tests render a frame using fake system statistics and
