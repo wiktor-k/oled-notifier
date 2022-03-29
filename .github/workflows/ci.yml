@@ -46,7 +46,7 @@ jobs:
       - name: Install SDL2
         run: sudo apt-get update && sudo apt-get install libsdl2-dev
       - name: Check for lints
-        run: cargo clippy -- -D warnings
+        run: cargo clippy --features simulator -- -D warnings
 
   ete:
     name: End-to-end tests
