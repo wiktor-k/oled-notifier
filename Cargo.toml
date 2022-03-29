@@ -1,0 +1,13 @@
+[package]
+name = "oled-notifier"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ssd1306 = "0.7.0"
+systemstat = "0.1.10"
+embedded-graphics = "0.7.1"
+linux-embedded-hal = "0.3.2"
+embedded-graphics-core = "0.3.3"
+display-interface = "0.4.1"
+embedded-graphics-simulator = "0.3.0"
