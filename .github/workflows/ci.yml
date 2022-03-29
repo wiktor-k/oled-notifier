@@ -27,6 +27,10 @@ jobs:
   tests:
     name: Unit tests
     runs-on: ubuntu-latest
+    env:
+      CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS: "-Clink-self-contained=yes -Clinker=rust-lld"
+      AR_aarch64_unknown_linux_musl: llvm-ar
+      CC_aarch64_unknown_linux_musl: clang
     steps:
       - uses: actions/checkout@v2
       - name: Install AArch64 toolchain
@@ -45,7 +49,9 @@ jobs:
   ete:
     name: End-to-end tests
     runs-on: ubuntu-latest
+    env:
+      EG_SIMULATOR_CHECK: docs/screenshot.png
     steps:
       - uses: actions/checkout@v2
       - name: Run end-to-end tests
-        run: EG_SIMULATOR_CHECK=docs/screenshot.png cargo run --bin simulate
+        run: cargo run --bin simulate
