@@ -1,0 +1,8 @@
+[Unit]
+Description=OLED Display Notifier
+
+[Service]
+ExecStart=/usr/bin/oled-notifier
+
+[Install]
+WantedBy=multi-user.target
