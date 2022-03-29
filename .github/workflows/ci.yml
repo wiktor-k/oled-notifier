@@ -36,7 +36,7 @@ jobs:
       - name: Install AArch64 toolchain
         run: rustup target add aarch64-unknown-linux-musl
       - name: Build and test
-        run: cargo build --verbose --all --target aarch64-unknown-linux-musl && cargo test --verbose --all
+        run: cargo build --verbose --bin main --target aarch64-unknown-linux-musl && cargo test --verbose --lib
        
   lints:
     name: Clippy lints
