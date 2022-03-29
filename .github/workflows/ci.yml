@@ -56,4 +56,4 @@ jobs:
       - name: Install SDL2
         run: sudo apt-get install libsdl2-dev
       - name: Run end-to-end tests
-        run: cargo run --bin simulate
+        run: cargo run --features simulator --bin simulate

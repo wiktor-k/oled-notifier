@@ -31,7 +31,7 @@ check if the image is consistent with the known-good output:
 To regenerate end-to-end screenshots run the following command:
 
 ```sh
-EG_SIMULATOR_DUMP=docs/screenshot.png cargo run --bin simulate
+EG_SIMULATOR_DUMP=docs/screenshot.png cargo run --features simulator --bin simulate
 ```
 
 ## See also
