@@ -33,7 +33,11 @@ pub fn format_memory(mem: Result<Memory>) -> String {
 pub fn format_networks(net: Result<BTreeMap<String, Network>>) -> String {
     match net {
         Ok(netifs) => {
-            if let Some(netif) = netifs.values().next() {
+            if let Some(netif) = netifs
+                .values()
+                .filter(|net| !net.name.starts_with("lo") && !net.name.starts_with("docker"))
+                .next()
+            {
                 if let Some(addr) = netif.addrs.get(0) {
                     match addr.addr {
                         IpAddr::V4(v4) => format!("N: {}", v4),

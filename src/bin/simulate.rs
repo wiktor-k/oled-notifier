@@ -16,7 +16,7 @@ impl Platform for FakeSystem {
 
     #[unimpl]
     fn cpu_load(&self)
-        -> std::io::Result<systemstat::DelayedMeasurement<Vec<systemstat::CPULoad>>>;
+    -> std::io::Result<systemstat::DelayedMeasurement<Vec<systemstat::CPULoad>>>;
 
     fn load_average(&self) -> std::io::Result<systemstat::LoadAverage> {
         Ok(systemstat::LoadAverage {
@@ -52,6 +52,26 @@ impl Platform for FakeSystem {
     fn networks(&self) -> std::io::Result<systemstat::BTreeMap<String, systemstat::Network>> {
         let mut map = systemstat::BTreeMap::new();
         map.insert(
+            "docker0".into(),
+            systemstat::Network {
+                name: "docker0".into(),
+                addrs: vec![systemstat::data::NetworkAddrs {
+                    addr: systemstat::data::IpAddr::V4("1.0.0.1".parse().unwrap()),
+                    netmask: systemstat::data::IpAddr::V4("0.0.0.0".parse().unwrap()),
+                }],
+            },
+        );
+        map.insert(
+            "lo".into(),
+            systemstat::Network {
+                name: "lo".into(),
+                addrs: vec![systemstat::data::NetworkAddrs {
+                    addr: systemstat::data::IpAddr::V4("2.0.0.1".parse().unwrap()),
+                    netmask: systemstat::data::IpAddr::V4("0.0.0.0".parse().unwrap()),
+                }],
+            },
+        );
+        map.insert(
             "eth0".into(),
             systemstat::Network {
                 name: "eth0".into(),
@@ -63,9 +83,11 @@ impl Platform for FakeSystem {
         );
         Ok(map)
     }
+
     fn uptime(&self) -> std::io::Result<std::time::Duration> {
         Ok(std::time::Duration::from_secs(9987))
     }
+
     #[unimpl]
     fn network_stats(&self, _interface: &str) -> std::io::Result<systemstat::NetworkStats>;
 
