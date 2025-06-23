@@ -1,7 +1,14 @@
 [package]
 name = "oled-notifier"
 version = "0.1.0"
+authors = ["Wiktor Kwapisiewicz <wiktor@metacode.biz>"]
 edition = "2024"
+description = "Simple statistics for the ODROID-HC4 with OLED device"
+repository = "https://github.com/wiktor-k/oled-notifier"
+license = "MIT OR Apache-2.0"
+keywords = ["embedded", "hc4", "odroid", "oled"]
+categories = ["embedded"]
+exclude = [".github"]
 
 [[bin]]
 name = "simulate"
