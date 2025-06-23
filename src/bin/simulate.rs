@@ -1,8 +1,11 @@
+#![cfg(feature = "simulator")]
+
 use embedded_graphics_core::{pixelcolor::BinaryColor, prelude::*};
 use embedded_graphics_simulator::{
     BinaryColorTheme, OutputSettingsBuilder, SimulatorDisplay, Window,
 };
 use systemstat::Platform;
+use unimpl::unimpl;
 
 struct FakeSystem;
 
@@ -11,11 +14,9 @@ impl Platform for FakeSystem {
         Self
     }
 
-    fn cpu_load(
-        &self,
-    ) -> std::io::Result<systemstat::DelayedMeasurement<Vec<systemstat::CPULoad>>> {
-        unimplemented!()
-    }
+    #[unimpl]
+    fn cpu_load(&self)
+        -> std::io::Result<systemstat::DelayedMeasurement<Vec<systemstat::CPULoad>>>;
 
     fn load_average(&self) -> std::io::Result<systemstat::LoadAverage> {
         Ok(systemstat::LoadAverage {
@@ -34,24 +35,19 @@ impl Platform for FakeSystem {
             },
         })
     }
+    #[unimpl]
+    fn battery_life(&self) -> std::io::Result<systemstat::BatteryLife>;
 
-    fn battery_life(&self) -> std::io::Result<systemstat::BatteryLife> {
-        unimplemented!()
-    }
+    #[unimpl]
+    fn on_ac_power(&self) -> std::io::Result<bool>;
 
-    fn on_ac_power(&self) -> std::io::Result<bool> {
-        unimplemented!()
-    }
+    #[unimpl]
+    fn mounts(&self) -> std::io::Result<Vec<systemstat::Filesystem>>;
 
-    fn mounts(&self) -> std::io::Result<Vec<systemstat::Filesystem>> {
-        unimplemented!()
-    }
-
+    #[unimpl]
     fn block_device_statistics(
         &self,
-    ) -> std::io::Result<systemstat::BTreeMap<String, systemstat::BlockDeviceStats>> {
-        unimplemented!()
-    }
+    ) -> std::io::Result<systemstat::BTreeMap<String, systemstat::BlockDeviceStats>>;
 
     fn networks(&self) -> std::io::Result<systemstat::BTreeMap<String, systemstat::Network>> {
         let mut map = systemstat::BTreeMap::new();
@@ -67,22 +63,20 @@ impl Platform for FakeSystem {
         );
         Ok(map)
     }
-
     fn uptime(&self) -> std::io::Result<std::time::Duration> {
         Ok(std::time::Duration::from_secs(9987))
     }
+    #[unimpl]
+    fn network_stats(&self, _interface: &str) -> std::io::Result<systemstat::NetworkStats>;
 
-    fn network_stats(&self, _interface: &str) -> std::io::Result<systemstat::NetworkStats> {
-        unimplemented!()
-    }
+    #[unimpl]
+    fn cpu_temp(&self) -> std::io::Result<f32>;
 
-    fn cpu_temp(&self) -> std::io::Result<f32> {
-        unimplemented!()
-    }
+    #[unimpl]
+    fn socket_stats(&self) -> std::io::Result<systemstat::SocketStats>;
 
-    fn socket_stats(&self) -> std::io::Result<systemstat::SocketStats> {
-        unimplemented!()
-    }
+    #[unimpl]
+    fn swap(&self) -> std::io::Result<systemstat::Swap>;
 }
 
 fn main() -> Result<(), Box<core::convert::Infallible>> {
