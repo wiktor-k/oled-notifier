@@ -3,8 +3,8 @@
 mod duration;
 pub mod stats;
 
-use embedded_graphics::mono_font::ascii::*;
 use embedded_graphics::mono_font::MonoTextStyleBuilder;
+use embedded_graphics::mono_font::ascii::*;
 use embedded_graphics::text::{Baseline, Text};
 use embedded_graphics_core::{draw_target::DrawTarget, pixelcolor::BinaryColor, prelude::*};
 

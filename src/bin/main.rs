@@ -2,7 +2,7 @@ use embedded_graphics::pixelcolor::BinaryColor;
 use embedded_graphics_core::draw_target::DrawTarget;
 use linux_embedded_hal::I2cdev;
 use ssd1306::mode::DisplayConfig;
-use ssd1306::{rotation::DisplayRotation, size::DisplaySize128x64, I2CDisplayInterface, Ssd1306};
+use ssd1306::{I2CDisplayInterface, Ssd1306, rotation::DisplayRotation, size::DisplaySize128x64};
 use systemstat::{Platform, System};
 
 fn main() -> Result<(), Box<display_interface::DisplayError>> {
