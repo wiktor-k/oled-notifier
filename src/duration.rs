@@ -13,7 +13,7 @@ impl FormattedDuration {
         T: std::fmt::Display + std::cmp::PartialEq + Default,
     {
         if value != T::default() {
-            write!(f, "{value}{name}")?;
+            write!(f, "{value}{name} ")?;
         }
         Ok(())
     }
@@ -25,7 +25,7 @@ impl std::fmt::Display for FormattedDuration {
         let nanos = self.0.subsec_nanos();
 
         if secs == 0 && nanos == 0 {
-            f.write_str("0s")?;
+            f.write_str("0s ")?;
             return Ok(());
         }
 
@@ -56,24 +56,24 @@ mod tests {
     #[test]
     fn formatted_second() {
         let d = FormattedDuration::new(Duration::from_secs(2));
-        assert_eq!("2s", d.to_string());
+        assert_eq!("2s ", d.to_string());
     }
 
     #[test]
     fn formatted_minutes_and_secs() {
         let d = FormattedDuration::new(Duration::from_secs(62));
-        assert_eq!("1m2s", d.to_string());
+        assert_eq!("1m 2s ", d.to_string());
     }
 
     #[test]
     fn formatted_empty() {
         let d = FormattedDuration::new(Duration::from_secs(0));
-        assert_eq!("0s", d.to_string());
+        assert_eq!("0s ", d.to_string());
     }
 
     #[test]
     fn formatted_hour() {
         let d = FormattedDuration::new(Duration::from_secs(3600));
-        assert_eq!("1h", d.to_string());
+        assert_eq!("1h ", d.to_string());
     }
 }
