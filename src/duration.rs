@@ -13,7 +13,7 @@ impl FormattedDuration {
         T: std::fmt::Display + std::cmp::PartialEq + Default,
     {
         if value != T::default() {
-            write!(f, "{}{}", value, name)?;
+            write!(f, "{value}{name}")?;
         }
         Ok(())
     }

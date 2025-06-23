@@ -15,7 +15,7 @@ pub fn format_load_average(avg: Result<LoadAverage>) -> String {
             loadavg.five * 100.0,
             loadavg.fifteen * 100.0
         ),
-        Err(x) => format!("CPU: error: {}", x),
+        Err(x) => format!("CPU: error: {x}"),
     }
 }
 
@@ -26,7 +26,7 @@ pub fn format_memory(mem: Result<Memory>) -> String {
             mem.free.as_u64() / (1024 * 1024),
             mem.total.as_u64() / (1024 * 1024),
         ),
-        Err(x) => format!("\nMem: error: {}", x),
+        Err(x) => format!("\nMem: error: {x}"),
     }
 }
 
@@ -34,13 +34,11 @@ pub fn format_networks(net: Result<BTreeMap<String, Network>>) -> String {
     match net {
         Ok(netifs) => {
             if let Some(netif) = netifs
-                .values()
-                .filter(|net| !net.name.starts_with("lo") && !net.name.starts_with("docker"))
-                .next()
+                .values().find(|net| !net.name.starts_with("lo") && !net.name.starts_with("docker"))
             {
-                if let Some(addr) = netif.addrs.get(0) {
+                if let Some(addr) = netif.addrs.first() {
                     match addr.addr {
-                        IpAddr::V4(v4) => format!("N: {}", v4),
+                        IpAddr::V4(v4) => format!("N: {v4}"),
                         _ => "Net: unknown".to_string(),
                     }
                 } else {
@@ -50,13 +48,13 @@ pub fn format_networks(net: Result<BTreeMap<String, Network>>) -> String {
                 "Net: no found".to_string()
             }
         }
-        Err(x) => format!("Net: error: {}", x),
+        Err(x) => format!("Net: error: {x}"),
     }
 }
 
 pub fn format_uptime(up: Result<Duration>) -> String {
     match up {
         Ok(uptime) => format!("U: {}", crate::duration::FormattedDuration::new(uptime)),
-        Err(x) => format!("Up: error: {}", x),
+        Err(x) => format!("Up: error: {x}"),
     }
 }
