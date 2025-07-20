@@ -19,6 +19,5 @@ fn main() -> Result<(), Box<display_interface::DisplayError>> {
         display.clear(BinaryColor::Off)?;
         oled_notifier::draw_frame(&mut display, &sys)?;
         display.flush()?;
-        std::thread::sleep(std::time::Duration::from_secs(2));
     }
 }

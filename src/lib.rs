@@ -24,7 +24,7 @@ where
         .text_color(BinaryColor::On)
         .build();
 
-    let cpu_load = format_load_average(sys.load_average());
+    let cpu_load = format_cpu_load(sys.cpu_load());
 
     Text::with_baseline(&cpu_load, Point::zero(), text_style, Baseline::Top).draw(display)?;
 

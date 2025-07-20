@@ -13,11 +13,7 @@ display is refreshed every 2 seconds.
 ## Building
 
 ```sh
-export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-Clink-self-contained=yes -Clinker=rust-lld"
-export AR_aarch64_unknown_linux_musl=llvm-ar
-export CC_aarch64_unknown_linux_musl=clang
-
-cargo build --bin main --release --target aarch64-unknown-linux-musl
+cargo build --bin main --target aarch64-unknown-linux-musl --release
 ```
 
 ## Running

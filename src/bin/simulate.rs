@@ -4,7 +4,7 @@ use embedded_graphics_core::{pixelcolor::BinaryColor, prelude::*};
 use embedded_graphics_simulator::{
     BinaryColorTheme, OutputSettingsBuilder, SimulatorDisplay, Window,
 };
-use systemstat::Platform;
+use systemstat::{DelayedMeasurement, Platform, PlatformCpuLoad};
 use unimpl::unimpl;
 
 struct FakeSystem;
@@ -14,17 +14,47 @@ impl Platform for FakeSystem {
         Self
     }
 
-    #[unimpl]
-    fn cpu_load(&self)
-    -> std::io::Result<systemstat::DelayedMeasurement<Vec<systemstat::CPULoad>>>;
-
-    fn load_average(&self) -> std::io::Result<systemstat::LoadAverage> {
-        Ok(systemstat::LoadAverage {
-            one: 0.11,
-            five: 0.14,
-            fifteen: 0.15,
-        })
+    fn cpu_load(
+        &self,
+    ) -> std::io::Result<systemstat::DelayedMeasurement<Vec<systemstat::CPULoad>>> {
+        Ok(DelayedMeasurement::new(Box::new(|| {
+            Ok(vec![
+                systemstat::CPULoad {
+                    user: 0.004972356,
+                    nice: Default::default(),
+                    system: Default::default(),
+                    interrupt: Default::default(),
+                    idle: Default::default(),
+                    platform: PlatformCpuLoad {
+                        iowait: Default::default(),
+                    },
+                },
+                systemstat::CPULoad {
+                    user: 0.0,
+                    nice: Default::default(),
+                    system: Default::default(),
+                    interrupt: Default::default(),
+                    idle: Default::default(),
+                    platform: PlatformCpuLoad {
+                        iowait: Default::default(),
+                    },
+                },
+                systemstat::CPULoad {
+                    user: 0.03267,
+                    nice: Default::default(),
+                    system: Default::default(),
+                    interrupt: Default::default(),
+                    idle: Default::default(),
+                    platform: PlatformCpuLoad {
+                        iowait: Default::default(),
+                    },
+                },
+            ])
+        })))
     }
+
+    #[unimpl]
+    fn load_average(&self) -> std::io::Result<systemstat::LoadAverage>;
 
     fn memory(&self) -> std::io::Result<systemstat::Memory> {
         Ok(systemstat::Memory {

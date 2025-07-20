@@ -3,46 +3,37 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  # Use the following command to fix words locally:
-  # codespell --ignore-words-list "ser,crate,daa,keypair" --skip "*/target,*-sys" --write-changes
   check-spelling:
     name: Check spelling
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Check spelling
-        uses: codespell-project/actions-codespell@master
-        with:
-          ignore_words_list: "ser,crate,daa,keypair"
-          path: tss-esapi
-          skip: "*/target,*-sys"
+        uses: codespell-project/actions-codespell@v2
 
   formatting:
     name: Check formatting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Check formatting
         run: cargo fmt --all -- --check
 
   tests:
     name: Unit tests
     runs-on: ubuntu-latest
-    env:
-      CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS: "-Clink-self-contained=yes -Clinker=rust-lld"
-      AR_aarch64_unknown_linux_musl: llvm-ar
-      CC_aarch64_unknown_linux_musl: clang
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install AArch64 toolchain
         run: rustup target add aarch64-unknown-linux-musl
       - name: Build and test
         run: cargo build --verbose --bin main --target aarch64-unknown-linux-musl && cargo test --verbose --lib
-       
+
   lints:
     name: Clippy lints
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install SDL2
         run: sudo apt-get update && sudo apt-get install libsdl2-dev
       - name: Check for lints
@@ -54,7 +45,7 @@ jobs:
     env:
       EG_SIMULATOR_CHECK: docs/screenshot.png
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install SDL2
         run: sudo apt-get update && sudo apt-get install libsdl2-dev
       - name: Run end-to-end tests

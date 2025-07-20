@@ -1,5 +1,5 @@
+use systemstat::DelayedMeasurement;
 use systemstat::data::IpAddr;
-use systemstat::data::LoadAverage;
 use systemstat::data::Memory;
 use systemstat::data::Network;
 
@@ -7,15 +7,20 @@ use std::collections::BTreeMap;
 use std::io::Result;
 use std::time::Duration;
 
-pub fn format_load_average(avg: Result<LoadAverage>) -> String {
+pub fn format_cpu_load(avg: Result<DelayedMeasurement<Vec<systemstat::data::CPULoad>>>) -> String {
     match avg {
-        Ok(loadavg) => format!(
-            "{:.0}% {:.0}% {:.0}%",
-            loadavg.one * 100.0,
-            loadavg.five * 100.0,
-            loadavg.fifteen * 100.0
-        ),
-        Err(x) => format!("CPU: error: {x}"),
+        Ok(measurement) => {
+            std::thread::sleep(std::time::Duration::from_secs(2));
+            match measurement.done() {
+                Ok(load) => load
+                    .into_iter()
+                    .map(|load| format!("{}%", (load.user * 100.0).round()))
+                    .collect::<Vec<_>>()
+                    .join(" "),
+                Err(x) => format!("CPU: finish error: {x}"),
+            }
+        }
+        Err(x) => format!("CPU: start error: {x}"),
     }
 }
 
